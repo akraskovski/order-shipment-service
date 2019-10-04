@@ -1,4 +1,4 @@
-package com.github.akraskovski.common.core.api.commands
+package com.github.akraskovski.oss.common.commands
 
 import org.axonframework.modelling.command.TargetAggregateIdentifier
 import java.io.Serializable

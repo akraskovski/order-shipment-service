@@ -1,4 +1,4 @@
-package com.github.akraskovski.common.core.api.enums
+package com.github.akraskovski.oss.common.enums
 
 enum class OrderStatus {
     CREATED,

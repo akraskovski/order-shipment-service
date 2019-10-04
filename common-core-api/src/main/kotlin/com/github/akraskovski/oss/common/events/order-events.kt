@@ -1,6 +1,6 @@
-package com.github.akraskovski.common.core.api.events
+package com.github.akraskovski.oss.common.events
 
-import com.github.akraskovski.common.core.api.enums.OrderStatus
+import com.github.akraskovski.oss.common.enums.OrderStatus
 import java.math.BigDecimal
 
 data class OrderCreatedEvent(

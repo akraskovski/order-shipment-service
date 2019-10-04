@@ -1,4 +1,4 @@
-package com.github.akraskovski.order.shipment.service
+package com.github.akraskovski.oss
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
