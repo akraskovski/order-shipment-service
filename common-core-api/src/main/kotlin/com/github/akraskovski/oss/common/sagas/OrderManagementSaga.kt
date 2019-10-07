@@ -8,22 +8,30 @@ import com.github.akraskovski.oss.common.events.InvoiceCreatedEvent
 import com.github.akraskovski.oss.common.events.OrderCreatedEvent
 import com.github.akraskovski.oss.common.events.OrderShippedEvent
 import org.axonframework.commandhandling.gateway.CommandGateway
+import org.axonframework.modelling.saga.EndSaga
 import org.axonframework.modelling.saga.SagaEventHandler
 import org.axonframework.modelling.saga.SagaLifecycle
 import org.axonframework.modelling.saga.StartSaga
 import org.axonframework.spring.stereotype.Saga
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import java.util.*
 
 @Saga
 open class OrderManagementSaga {
 
+    @Autowired
     @Transient
     private lateinit var commandGateway: CommandGateway
+
+    @Transient
+    private val log: Logger = LoggerFactory.getLogger(OrderManagementSaga::class.java)
 
     @StartSaga
     @SagaEventHandler(associationProperty = "orderId")
     fun on(event: OrderCreatedEvent) {
-        println("Starting Saga with event: $event")
+        log.info("Starting Saga with event: $event")
         val paymentId = UUID.randomUUID().toString()
 
         SagaLifecycle.associateWith("invoiceId", paymentId)
@@ -34,7 +42,7 @@ open class OrderManagementSaga {
 
     @SagaEventHandler(associationProperty = "invoiceId")
     fun on(event: InvoiceCreatedEvent) {
-        println("Continue Saga with event: $event")
+        log.info("Continue Saga with event: $event")
         val shippingId = UUID.randomUUID().toString()
 
         SagaLifecycle.associateWith("shippingId", shippingId)
@@ -43,9 +51,10 @@ open class OrderManagementSaga {
         commandGateway.send<Any>(UpdateOrderStatusCommand(event.orderId, OrderStatus.SHIPPING))
     }
 
+    @EndSaga
     @SagaEventHandler(associationProperty = "shippingId")
     fun on(event: OrderShippedEvent) {
-        println("Finishing Saga with event: $event")
+        log.info("Finishing Saga with event: $event")
 
         commandGateway.send<Any>(UpdateOrderStatusCommand(event.orderId, OrderStatus.SHIPPED))
     }

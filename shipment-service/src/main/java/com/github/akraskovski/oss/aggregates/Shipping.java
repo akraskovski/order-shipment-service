@@ -32,6 +32,8 @@ public class Shipping {
 
     @EventSourcingHandler
     protected void on(StartOrderShippingEvent event) throws InterruptedException {
+        shipmentId = event.getShippingId();
+
         log.info("Start shipping order: {}", event);
         Thread.sleep(1000);
 
