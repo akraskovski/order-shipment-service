@@ -12,4 +12,12 @@
     <artifactId>invoice-service</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github.akraskovski</groupId>
+            <artifactId>common-core-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
 </project>
